@@ -1,16 +1,13 @@
 package com.example.order.external;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.order.domain.external.DistanceCalculateService;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 
 import java.io.IOException;
 

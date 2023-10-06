@@ -1,4 +1,4 @@
-package com.example.order.web;
+package com.example.order.web.Controller;
 
 import com.example.order.application.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;

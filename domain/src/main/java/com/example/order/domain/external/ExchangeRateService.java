@@ -1,4 +1,4 @@
-package com.example.order.external;
+package com.example.order.domain.external;
 
 import com.example.order.types.Currency;
 import com.example.order.types.ExchangeRate;

@@ -1,4 +1,4 @@
-package com.example.order.repository;
+package com.example.order.domain.repository;
 
 import com.example.order.domain.entity.Account;
 import com.example.order.types.AccountId;

@@ -2,10 +2,9 @@ package com.example.order.domain.entity;
 
 
 import com.example.order.exception.DisCorrectInputException;
-import com.example.order.external.DistanceCalculateService;
+import com.example.order.domain.external.DistanceCalculateService;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
