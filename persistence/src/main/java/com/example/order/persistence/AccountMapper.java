@@ -1,5 +1,7 @@
 package com.example.order.persistence;
 
+import com.example.order.persistence.DO.AccountDO;
+
 public interface AccountMapper {
     int insert(AccountDO accountDO);
 

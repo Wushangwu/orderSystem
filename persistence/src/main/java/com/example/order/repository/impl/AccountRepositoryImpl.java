@@ -3,7 +3,7 @@ package com.example.order.repository.impl;
 import com.example.order.domain.entity.Account;
 import com.example.order.exception.BusinessException;
 import com.example.order.persistence.AccountBuilder;
-import com.example.order.persistence.AccountDO;
+import com.example.order.persistence.DO.AccountDO;
 import com.example.order.persistence.AccountMapper;
 import com.example.order.domain.repository.AccountRepository;
 import com.example.order.types.AccountId;

@@ -2,7 +2,7 @@ package com.example.order.persistence.impl;
 
 import com.example.order.domain.entity.Account;
 import com.example.order.persistence.AccountBuilder;
-import com.example.order.persistence.AccountDO;
+import com.example.order.persistence.DO.AccountDO;
 import com.example.order.types.*;
 import org.springframework.stereotype.Component;
 

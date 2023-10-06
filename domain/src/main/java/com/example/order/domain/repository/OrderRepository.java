@@ -9,7 +9,7 @@ import com.example.order.types.UserId;
 import java.util.List;
 
 public interface OrderRepository {
-    int save(Order order) throws Exception;
-    int taken(Order order) throws Exception;
-    List<Order> find(UserId userId) throws Exception;
+    void save(Order order) throws Exception;
+    void taken(Order order) throws Exception;
+    List<Order> find(UserId userId);
 }

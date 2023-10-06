@@ -1,4 +1,4 @@
-package com.example.order.persistence;
+package com.example.order.persistence.DO;
 
 import java.math.BigDecimal;
 

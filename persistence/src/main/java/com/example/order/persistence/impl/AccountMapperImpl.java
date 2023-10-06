@@ -1,6 +1,6 @@
 package com.example.order.persistence.impl;
 
-import com.example.order.persistence.AccountDO;
+import com.example.order.persistence.DO.AccountDO;
 import com.example.order.persistence.AccountMapper;
 import org.springframework.stereotype.Repository;
 
