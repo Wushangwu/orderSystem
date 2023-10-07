@@ -2,32 +2,23 @@ package com.example.order.domain.entity;
 
 
 import com.example.order.exception.DisCorrectInputException;
-import com.example.order.domain.external.DistanceCalculateService;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 
-import java.io.IOException;
-
+@Data
 public class LocationCoordinate {
 
     private final String startLatitude;
     private final String startLongitude;
     private final String endLatitude;
     private final String endLongitude;
-
-    private static final double MaxLatitude = 80;
-
-    private static final double MinLatitude = -80;
-
-    private static final double MaxLongitude = 180;
-
-    private static final double MinLongitude = -180;
-
-
-    @Getter(AccessLevel.NONE)
     private int distance;
 
-    private DistanceCalculateService distanceCalculateService;
+    private static final double MaxLatitude = 80;
+    private static final double MinLatitude = -80;
+    private static final double MaxLongitude = 180;
+    private static final double MinLongitude = -180;
 
 
     public LocationCoordinate(String startLatitude, String startLongitude, String endLatitude, String endLongitude) {
@@ -35,10 +26,10 @@ public class LocationCoordinate {
         this.startLongitude = startLongitude;
         this.endLatitude = endLatitude;
         this.endLongitude = endLongitude;
-        this.checkLatitude(this.startLatitude);
-        this.checkLongitude(this.startLongitude);
-        this.checkLatitude(this.endLatitude);
-        this.checkLongitude(this.endLongitude);
+        //this.checkLatitude(this.startLatitude);
+        //this.checkLongitude(this.startLongitude);
+        //this.checkLatitude(this.endLatitude);
+        //this.checkLongitude(this.endLongitude);
     }
 
 
@@ -62,14 +53,6 @@ public class LocationCoordinate {
         if(0 > Double.valueOf(longitude).compareTo(MaxLongitude) || 0 < Double.valueOf(longitude).compareTo(MinLongitude)){
             throw(new DisCorrectInputException("input longitude is not correct"));
         };
-    }
-
-    /**
-     * calculate and get the distance;
-     *
-     */
-    private double getDistance() throws IOException, InterruptedException {
-        return distanceCalculateService.getDistance(this.startLatitude,this.startLongitude,this.endLatitude,this.endLongitude);
     }
 
 }

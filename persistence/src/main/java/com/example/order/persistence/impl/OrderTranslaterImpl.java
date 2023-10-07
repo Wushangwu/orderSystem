@@ -1,11 +1,11 @@
 package com.example.order.persistence.impl;
 
-import com.example.order.domain.entity.Account;
 import com.example.order.domain.entity.Order;
-import com.example.order.persistence.DO.AccountDO;
 import com.example.order.persistence.DO.OrderDO;
 import com.example.order.persistence.OrderTranslater;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrderTranslaterImpl implements OrderTranslater {
 
     @Override

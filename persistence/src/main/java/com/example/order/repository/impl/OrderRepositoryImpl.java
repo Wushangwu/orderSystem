@@ -6,13 +6,21 @@ import com.example.order.persistence.DO.OrderDO;
 import com.example.order.persistence.OrderMapper;
 import com.example.order.persistence.OrderTranslater;
 import com.example.order.types.UserId;
+import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class OrderRepositoryImpl implements OrderRepository {
 
+    @Autowired
     public OrderMapper orderDao;
 
+    @Autowired
     public OrderTranslater orderTranslater;
 
     @Override
@@ -30,7 +38,14 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> find(UserId userId) {
-        return null;
+    public List<Order> find(Integer page,Integer limit) throws Exception {
+        PageHelper.startPage(page, limit);
+        List<OrderDO> orderDOS = orderDao.find();
+        List<Order> orders = new ArrayList<>();
+        for(OrderDO orderDO :orderDOS){
+            Order order = orderTranslater.toOrder(orderDO);
+            orders.add(order);
+        }
+        return orders;
     }
 }

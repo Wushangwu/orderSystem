@@ -12,14 +12,14 @@ public interface OrderService {
      *
      * @return isSuccess boolean
      */
-    boolean create(String distance) throws Exception;
+    boolean create(Order order) throws Exception;
 
     /**
      * get orders
      *
      * @return Orders List<Order>
      */
-    List<Order> find();
+    List<Order> find(Integer page,Integer limit) throws Exception;
 
     /**
      * take the order;

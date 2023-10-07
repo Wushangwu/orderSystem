@@ -27,8 +27,9 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>domain</artifactId>
-            <version>${dddbook.version}</version>
+            <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 </project>
