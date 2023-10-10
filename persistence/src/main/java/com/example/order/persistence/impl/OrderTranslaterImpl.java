@@ -1,6 +1,6 @@
 package com.example.order.persistence.impl;
 
-import com.example.order.domain.entity.Order;
+import com.example.order.entity.Order;
 import com.example.order.persistence.DO.OrderDO;
 import com.example.order.persistence.OrderTranslater;
 import org.springframework.stereotype.Service;

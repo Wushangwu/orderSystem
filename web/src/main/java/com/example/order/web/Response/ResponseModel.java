@@ -20,15 +20,11 @@ public class ResponseModel {
         this.data = data;
     }
 
-
     public static ResponseModel defaultOk(Object data) {
         return new ResponseModel(ResponseEnum.SUCCESS,data);
     }
 
 
-    public static ResponseModel defaultValidateFial() {
-        return new ResponseModel(ResponseEnum.VALIDATE_FAILED);
-    }
 
 
 

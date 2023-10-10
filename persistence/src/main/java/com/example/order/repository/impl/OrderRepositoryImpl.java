@@ -1,18 +1,16 @@
 package com.example.order.repository.impl;
 
-import com.example.order.domain.entity.Order;
-import com.example.order.domain.repository.OrderRepository;
+import com.example.order.entity.Order;
+import com.example.order.repository.OrderRepository;
 import com.example.order.persistence.DO.OrderDO;
 import com.example.order.persistence.OrderMapper;
 import com.example.order.persistence.OrderTranslater;
-import com.example.order.types.UserId;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderRepositoryImpl implements OrderRepository {
@@ -41,11 +39,18 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<Order> find(Integer page,Integer limit) throws Exception {
         PageHelper.startPage(page, limit);
         List<OrderDO> orderDOS = orderDao.find();
-        List<Order> orders = new ArrayList<>();
-        for(OrderDO orderDO :orderDOS){
-            Order order = orderTranslater.toOrder(orderDO);
-            orders.add(order);
-        }
-        return orders;
+        return orderDOS.stream().map(orderDO -> {
+            try {
+                return orderTranslater.toOrder(orderDO);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).collect(Collectors.toList());
     }
+
+    @Override
+    public String getStatus(String id) throws Exception {
+         return orderDao.getStatus(id);
+    }
+
 }

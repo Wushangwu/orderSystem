@@ -1,14 +1,17 @@
 package com.example.order.web.Controller;
 
-import com.example.order.domain.entity.LocationCoordinate;
-import com.example.order.domain.entity.Order;
-import com.example.order.domain.service.LocationCoordinateService;
-import com.example.order.domain.service.OrderService;
+import com.example.order.config.RedisUtil;
+import com.example.order.constant.OrderStatus;
+import com.example.order.entity.Coordinate;
+import com.example.order.entity.Order;
+import com.example.order.service.LocationCoordinateService;
+import com.example.order.service.OrderService;
 import com.example.order.exception.DisCorrectInputException;
 import com.example.order.web.DTO.LocationCoordinateDTO;
+import com.example.order.web.DTO.OrderDTO;
+import com.example.order.web.Exception.RedisLockedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +24,9 @@ public class OrderController {
     public OrderService orderService;
 
     @Autowired
+    public RedisUtil redisUtil;
+
+    @Autowired
     public LocationCoordinateService locationCoordinateService;
 
     @RequestMapping(value = "/order",method = RequestMethod.POST)
@@ -30,20 +36,26 @@ public class OrderController {
         }
         String[] origin = locationCoordinateDTO.getOrigin();
         String[] destination = locationCoordinateDTO.getDestination();
-        LocationCoordinate locationCoordinate = new LocationCoordinate(origin[0],origin[1],destination[0],destination[1]);
+        Coordinate coordinate = new Coordinate(origin[0],origin[1],destination[0],destination[1]);
         Order order = new Order();
-        order.setStatus("UNASSIGNED");
-        order.setDistance(String.valueOf(locationCoordinateService.calculateDistance(locationCoordinate)));
+        order.setStatus(OrderStatus.UNASSIGNED);
+        order.setDistance(String.valueOf(locationCoordinateService.calculateDistance(coordinate)));
         orderService.create(order);
-        return new Order();
+        return order;
     }
 
-    @RequestMapping(value = "/orders/{id}",method = RequestMethod.PATCH)
-    public Order takenOrder(@PathVariable("id") String id) throws Exception {
-        orderService.take(id);
-        Order order = new Order();
-        order.setStatus("Success");
-        return order;
+    @RequestMapping(value = "/orders",method = RequestMethod.PATCH)
+    public Order takenOrder(@RequestParam String id, @RequestBody OrderDTO orderDTO) throws Exception {
+        if(redisUtil.setnx("order_taken_" + id,"success", 60L)){
+            Order order = new Order();
+            order.setStatus(orderDTO.getStatus());
+            order.setId(id);
+            orderService.take(order);
+            order.setStatus(OrderStatus.SUCCESS);
+            return order;
+        }else{
+            throw new RedisLockedException("It is already taken");
+        }
     }
 
     @RequestMapping(value = "/orders",method = RequestMethod.GET)

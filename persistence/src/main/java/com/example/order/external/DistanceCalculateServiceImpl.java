@@ -1,7 +1,6 @@
 package com.example.order.external;
 
 
-import com.example.order.domain.external.DistanceCalculateService;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
@@ -20,10 +19,10 @@ public class DistanceCalculateServiceImpl implements DistanceCalculateService {
     @Value("${google.map.apiKey}")
     private String apiKey;
     @Override
-    public double getDistance(String startLatitude, String startLongitude, String endLatitude, String endLongitude) throws IOException, InterruptedException {
+    public Integer getDistance(String startLatitude, String startLongitude, String endLatitude, String endLongitude) throws IOException, InterruptedException {
         // Set api key
         if("1234".equals(apiKey)){
-            return new Double("123");
+            return new Integer("123");
         }
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey(apiKey)
@@ -41,7 +40,7 @@ public class DistanceCalculateServiceImpl implements DistanceCalculateService {
         }
         DistanceMatrixElement element = res.rows[0].elements[0];
         if("OK".equals(element.status)) {
-            return (double) element.distance.inMeters;
+            return Integer.parseInt(String.valueOf(element.distance.inMeters));
         }
         return -99;
     }

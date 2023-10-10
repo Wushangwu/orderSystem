@@ -11,7 +11,7 @@
 
     <update id="update" parameterType="com.example.order.persistence.DO.OrderDO">
         update order_info_t
-        set status = #{orderDo.id}
+        set status = #{orderDo.status}
         where id = #{orderDo.id};
     </update>
 
@@ -19,6 +19,12 @@
     <select id="find" resultType="com.example.order.persistence.DO.OrderDO">
         select id, status, distance
         from order_info_t
+    </select>
+
+    <select id="getStatus"  parameterType="com.example.order.persistence.DO.OrderDO" resultType="string">
+        select status
+        from order_info_t
+        where id = #{orderDo.id};
     </select>
 
 

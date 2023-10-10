@@ -12,4 +12,6 @@ public interface OrderMapper {
     int save(@Param("order") OrderDO order) throws Exception;
     void update(@Param("orderDo") OrderDO order) throws Exception;
     List<OrderDO> find();
+    String getStatus(String id);
+
 }
