@@ -1,5 +1,6 @@
 package com.example.order.service.impl;
 
+import com.example.order.constant.OrderStatus;
 import com.example.order.entity.Order;
 import com.example.order.exception.DisCorrectInputException;
 import com.example.order.exception.OrderException;
@@ -8,12 +9,16 @@ import com.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
+
+
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
+
+    @Resource
     public  OrderRepository orderRepository;
 
     @Override
@@ -32,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean take(Order order) throws Exception {
-        if("taken".equals(orderRepository.getStatus(order.getId()))){
+        if(OrderStatus.TAKEN.equals(orderRepository.getStatus(order.getId()))){
             throw new OrderException("order is taken");
         }
         orderRepository.taken(order);

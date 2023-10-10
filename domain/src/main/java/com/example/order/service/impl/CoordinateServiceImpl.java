@@ -2,14 +2,14 @@ package com.example.order.service.impl;
 
 import com.example.order.entity.Coordinate;
 import com.example.order.external.DistanceCalculateService;
-import com.example.order.service.LocationCoordinateService;
+import com.example.order.service.CoordinateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
-public class LocationCoordinateServiceImpl implements LocationCoordinateService {
+public class CoordinateServiceImpl implements CoordinateService {
 
     @Autowired
     public DistanceCalculateService distanceCalculateService;

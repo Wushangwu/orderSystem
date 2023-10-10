@@ -4,7 +4,7 @@ import com.example.order.entity.Coordinate;
 
 import java.io.IOException;
 
-public interface LocationCoordinateService {
+public interface CoordinateService {
 
     Integer calculateDistance(Coordinate coordinate) throws IOException, InterruptedException;
 }

@@ -30,7 +30,6 @@ public class Coordinate {
         this.checkLongitude(this.endLongitude);
     }
 
-
     /**
      * check the input Latitude;
      *

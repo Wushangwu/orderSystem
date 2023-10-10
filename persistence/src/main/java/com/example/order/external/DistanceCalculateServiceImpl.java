@@ -1,6 +1,7 @@
 package com.example.order.external;
 
 
+import com.example.order.exception.Externalexception;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
@@ -24,25 +25,23 @@ public class DistanceCalculateServiceImpl implements DistanceCalculateService {
         if("1234".equals(apiKey)){
             return new Integer("123");
         }
-        GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey(apiKey)
-                .build();
-        // set origin and destination
+        GeoApiContext context = new GeoApiContext.Builder().apiKey(apiKey).build();
         LatLng origin = new LatLng(Double.parseDouble(startLatitude), Double.parseDouble(startLongitude));
         LatLng destination = new LatLng(Double.parseDouble(endLatitude), Double.parseDouble(endLongitude));
-        // 计算距离
         DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context).origins(origin).destinations(destination);
         DistanceMatrix res = null;
         try {
             res = req.await();
         } catch (ApiException e) {
-            throw new RuntimeException(e);
+            log.info(e.toString());
+            throw new Externalexception("something wrong from google map");
         }
         DistanceMatrixElement element = res.rows[0].elements[0];
         if("OK".equals(element.status)) {
             return Integer.parseInt(String.valueOf(element.distance.inMeters));
+        }else{
+            throw new Externalexception("something wrong from google map");
         }
-        return -99;
     }
 
 }

@@ -1,7 +1,9 @@
 package com.example.order.web.Response;
 
+import com.example.order.entity.Order;
 import com.example.order.exception.DisCorrectInputException;
 import com.example.order.exception.OrderException;
+import com.example.order.web.Exception.RedisLockedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.util.List;
 
 @RestControllerAdvice()
 @Slf4j
@@ -39,7 +43,7 @@ public class ResponseAdvice implements ResponseBodyAdvice {
         /**
          * String、ActionResult不需要再包一层（不想包一层ActionResult对象的可以在这里把这个对象过滤掉）
          */
-        if (o instanceof String || o instanceof ResponseModel || o instanceof ErrorResponseModel) {
+        if (o instanceof String || o instanceof ResponseModel || o instanceof ErrorResponseModel || o instanceof Order || o instanceof List) {
             return o;
         }
         return ResponseModel.defaultOk(o);
@@ -97,5 +101,18 @@ public class ResponseAdvice implements ResponseBodyAdvice {
     public Object exceptionHandler(HttpMessageNotReadableException e) {
         log.error(e.toString());
         return new ErrorResponseModel("input is not correct");
+    }
+
+    /**
+     * validate failed
+     *
+     * @param
+     * @return
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = RedisLockedException.class)
+    public Object exceptionHandler(RedisLockedException e) {
+        log.error(e.toString());
+        return new ErrorResponseModel("It is locked");
     }
 }
