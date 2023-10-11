@@ -1,0 +1,53 @@
+version: "3.4"
+services:
+  my-mysql:
+    container_name: my-mysql
+    image: mysql:8
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ordersystem}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+
+  my-redis:
+    container_name: my-redis
+    image: redis:6-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
+  my-server:
+    container_name: my-server
+    build:
+      context: ./
+    image: my-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      JAVA_OPTS:
+        ${JAVA_OPTS:-
+          -Xms256m
+          -Xmx256m
+          -Djava.security.egd=file:/dev/./urandom
+        }
+      ARGS:
+        --spring.datasource.url=${MYSQL_DATASOURCE_URL:-jdbc:mysql://my-mysql:3306/ordersystem?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true}
+        --spring.datasource.username=${MYSQL_DATASOURCE_USERNAME:-root}
+        --spring.datasource.password=${MYSQL_DATASOURCE_PASSWORD:-123456}
+        --spring.redis.host=${REDIS_HOST:-my-redis}
+    depends_on:
+      - my-mysql
+      - my-redis
+
+volumes:
+  mysql:
+    driver: local
+  redis:
+    driver: local
