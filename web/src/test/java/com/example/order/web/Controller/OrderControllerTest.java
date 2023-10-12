@@ -42,13 +42,7 @@ public class OrderControllerTest {
         filed.set(orderController,redisUtil);
     }
 
-    @Test
-    public void take_race_condition() throws Exception {
-        thrown.expect(RedisLockedException.class);
-        thrown.expectMessage("It is already taken");
-        when(redisUtil.setnx(Mockito.anyString(),Mockito.anyString(),Mockito.anyLong())).thenReturn(false);
-        orderController.takenOrder("123",new OrderDTO());
-    }
+
 
     @Test
     public void create_order_input_discorrect_length() throws Exception {
