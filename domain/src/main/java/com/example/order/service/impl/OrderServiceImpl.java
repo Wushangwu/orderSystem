@@ -37,11 +37,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean take(Order order) throws Exception {
-        if(OrderStatus.TAKEN.equals(orderRepository.getStatus(order.getId()))){
-            throw new OrderException("order is taken");
-        }
         orderRepository.taken(order);
         return true;
+    }
+
+    @Override
+    public String getStatus(Order order) throws Exception {
+        return orderRepository.getStatus(order.getId());
     }
 
 }

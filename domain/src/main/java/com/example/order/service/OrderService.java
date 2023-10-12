@@ -27,4 +27,11 @@ public interface OrderService {
      */
     boolean take(Order order) throws Exception;
 
+    /**
+     * take the order;
+     *
+     * @return Orders List<Order>
+     */
+    String getStatus(Order order) throws Exception;
+
 }

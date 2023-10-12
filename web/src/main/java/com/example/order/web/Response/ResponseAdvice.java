@@ -3,6 +3,7 @@ package com.example.order.web.Response;
 import com.example.order.entity.Order;
 import com.example.order.exception.DisCorrectInputException;
 import com.example.order.exception.OrderException;
+import com.example.order.web.DTO.OrderDTO;
 import com.example.order.web.Exception.RedisLockedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -24,7 +25,8 @@ public class ResponseAdvice implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
-        return true;
+        RequestAdivce requestAdivce = methodParameter.getMethodAnnotation(RequestAdivce.class);
+        return  requestAdivce == null;
     }
 
     /**
@@ -43,7 +45,7 @@ public class ResponseAdvice implements ResponseBodyAdvice {
         /**
          * String、ActionResult不需要再包一层（不想包一层ActionResult对象的可以在这里把这个对象过滤掉）
          */
-        if (o instanceof String || o instanceof ResponseModel || o instanceof ErrorResponseModel || o instanceof Order || o instanceof List) {
+        if (o instanceof String || o instanceof ResponseModel || o instanceof ErrorResponseModel ) {
             return o;
         }
         return ResponseModel.defaultOk(o);
@@ -87,7 +89,7 @@ public class ResponseAdvice implements ResponseBodyAdvice {
     @ExceptionHandler(value = OrderException.class)
     public Object exceptionHandler(OrderException e) {
         log.error(e.toString());
-        return new ErrorResponseModel("something wrong with orders");
+        return new ErrorResponseModel(e.getMessage());
     }
 
     /**
@@ -113,6 +115,6 @@ public class ResponseAdvice implements ResponseBodyAdvice {
     @ExceptionHandler(value = RedisLockedException.class)
     public Object exceptionHandler(RedisLockedException e) {
         log.error(e.toString());
-        return new ErrorResponseModel("It is locked");
+        return new ErrorResponseModel(e.getMessage());
     }
 }
