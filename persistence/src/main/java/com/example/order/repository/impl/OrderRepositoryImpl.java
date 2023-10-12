@@ -3,7 +3,7 @@ package com.example.order.repository.impl;
 import com.example.order.entity.Order;
 import com.example.order.repository.OrderRepository;
 import com.example.order.persistence.DO.OrderDO;
-import com.example.order.persistence.OrderMapper;
+import com.example.order.persistence.mapper.OrderMapper;
 import com.example.order.persistence.OrderTranslater;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> find(Integer page,Integer limit) throws Exception {
+    public List<Order> find(Integer page,Integer limit) {
         PageHelper.startPage(page, limit);
         List<OrderDO> orderDOS = orderDao.find();
         return orderDOS.stream().map(orderDO -> {
@@ -49,7 +49,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public String getStatus(String id) throws Exception {
+    public String getStatus(String id)  {
          return orderDao.getStatus(id);
     }
 

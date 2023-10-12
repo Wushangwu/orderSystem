@@ -1,4 +1,4 @@
-package com.example.order.persistence;
+package com.example.order.persistence.mapper;
 
 import com.example.order.persistence.DO.OrderDO;
 import org.apache.ibatis.annotations.Mapper;
