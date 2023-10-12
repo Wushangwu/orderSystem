@@ -24,7 +24,7 @@ services:
   my-server:
     container_name: my-server
     build:
-      context: ./
+      context: ../../Downloads/orderSystem
     image: my-server
     restart: unless-stopped
     ports:
